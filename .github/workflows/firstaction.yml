@@ -2,9 +2,9 @@ name: CI — Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ GradleAPItask ]
   pull_request:
-    branches: [ main ]
+    branches: [ GradleAPItask ]
   workflow_dispatch: {}
 
 permissions:
