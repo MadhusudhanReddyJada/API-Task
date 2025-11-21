@@ -5,7 +5,6 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                // Pull code from the same Git repo that has Jenkinsfile
                 checkout scm
             }
         }
@@ -21,14 +20,12 @@ pipeline {
         stage('Archive Test Results') {
             steps {
                 junit 'build/test-results/test/*.xml'
-
                 archiveArtifacts artifacts: 'build/allure-results/**', fingerprint: true
             }
         }
 
         stage('Allure Report') {
             steps {
-                // This "allure" step is provided by Allure Jenkins plugin
                 allure includeProperties: false,
                        jdk: '',
                        results: [[path: 'build/allure-results']]
@@ -51,4 +48,5 @@ pipeline {
         }
     }
 }
+
 
