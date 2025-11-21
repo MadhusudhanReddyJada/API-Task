@@ -17,7 +17,6 @@ pipeline {
                     }
                 }
             }
-        }
 
         stage('Archive Test Results') {
             steps {
@@ -52,3 +51,4 @@ pipeline {
         }
     }
 }
+
