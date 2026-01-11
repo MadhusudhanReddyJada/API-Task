@@ -32,7 +32,6 @@ public class RestVSGraphQL {
     @ValueSource(ints = {1, 2, 3, 4})
     @Story("Cross-Verification: REST vs GraphQL")
     void compareRestAndGraphqlById(int id) {
-        //REST
         Response restResp = given().baseUri(BASE).basePath("/api/character/{id}").pathParam("id", id).when().get().then().statusCode(200).extract().response();
 
         Allure.addAttachment("REST response for id=" + id, "application/json", restResp.asString(), ".json");
@@ -41,7 +40,6 @@ public class RestVSGraphQL {
         String restStatus = restResp.path("status");
         List<String> restEpisodes = restResp.path("episode");
 
-        //GraphQL
         String q = """
                     query($id:ID!){
                       character(id:$id){ id name status episode{ id } }
@@ -64,9 +62,9 @@ public class RestVSGraphQL {
         int graphqlEpisodeCount = graphqlEpisodes == null ? 0 : graphqlEpisodes.size();
         System.out.println(graphqlEpisodeCount + " " + restEpisodeCount);
         assertAll(
-                () ->assertThat(graphqlName).isEqualTo(restName),
-                () ->assertThat(graphqlStatus).isEqualTo(restStatus),
-                () ->assertThat(graphqlEpisodeCount).isEqualTo(restEpisodeCount)
+                () -> assertThat(graphqlName).isEqualTo(restName),
+                () -> assertThat(graphqlStatus).isEqualTo(restStatus),
+                () -> assertThat(graphqlEpisodeCount).isEqualTo(restEpisodeCount)
         );
 
     }

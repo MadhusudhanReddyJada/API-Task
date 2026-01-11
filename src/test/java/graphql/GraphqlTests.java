@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,19 +21,22 @@ import org.assertj.core.api.Assertions;
 @Feature("GraphQL")
 @Owner("madhusudhan_reddy")
 public class GraphqlTests {
-    private final String actualName ="Rick Sanchez";
-    record Query(String query, Map<String, Object> variables) {}
+    private final String actualName = "Rick Sanchez";
+
+    record Query(String query, Map<String, Object> variables) {
+    }
 
     @Test
     @Story("Character by ID")
     void characterByIdGraphQL() {
-        record Query(String query, Map<String,Object> variables) {}
+        record Query(String query, Map<String, Object> variables) {
+        }
 
         String q = """ 
-        query($id:ID!){ 
-          character(id:$id){ id name status episode{ id } } 
-        } 
-    """;
+                    query($id:ID!){ 
+                      character(id:$id){ id name status episode{ id } } 
+                    } 
+                """;
 
         var body = new Query(q, Map.of("id", 1));
 
@@ -59,13 +63,13 @@ public class GraphqlTests {
     @Story("Filtered list query")
     void filterCharactersGraphQL() {
         String q = """
-        query($page:Int,$status:String){
-          characters(page:$page, filter:{status:$status}) {
-            info { next }
-            results { id name status }
-          }
-        }
-    """;
+                    query($page:Int,$status:String){
+                      characters(page:$page, filter:{status:$status}) {
+                        info { next }
+                        results { id name status }
+                      }
+                    }
+                """;
 
         var body = new Query(q, Map.of("page", 2, "status", "alive"));
 
@@ -97,7 +101,6 @@ public class GraphqlTests {
         Object infoNode = resp.path("data.characters.info");
         Assertions.assertThat(infoNode).isNotNull();
         Object nextPage = resp.path("data.characters.info.next");
-//        Object pages = resp.path("data.characters.info.pages");
         Assertions.assertThat(nextPage).isNotNull();
     }
 
@@ -105,10 +108,10 @@ public class GraphqlTests {
     @Story("Negative GraphQL scenario")
     void negativeCharacterIdGraphQL() {
         String q = """
-        query($id:ID!){
-          character(id:$id){ id name status episode{ id } }
-        }
-    """;
+                    query($id:ID!){
+                      character(id:$id){ id name status episode{ id } }
+                    }
+                """;
 
         var body = new Query(q, Map.of("id", 999999));
 
@@ -134,5 +137,4 @@ public class GraphqlTests {
             Assertions.assertThat(characterNode).isNull();
         }
     }
-
 }

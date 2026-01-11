@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @Feature("REST")
 @Owner("madhusudhan_reddy")
 public class RestTests {
-    private final String actualName ="Rick Sanchez";
+    private final String actualName = "Rick Sanchez";
 
     @Test
     @Story("Get character by ID")
@@ -104,10 +104,8 @@ public class RestTests {
 
         Allure.addAttachment("Schema Validation Response", "application/json", resp.asString(), ".json");
 
-        // Deserialize into Lombok POJO
         CharacterPojo pojo = resp.as(CharacterPojo.class);
 
-        // Attach the Lombok-generated toString() for quick debug
         Allure.addAttachment("Deserialized POJO", pojo.toString());
 
 
@@ -118,10 +116,10 @@ public class RestTests {
                 () -> assertThat(pojo.getSpecies()).isNotEmpty(),
                 () -> assertThat(pojo.getGender()).isNotEmpty(),
                 () -> assertThat(pojo.getOrigin()).isNotNull(),
-                () ->assertThat(pojo.getOrigin().getName()).isNotEmpty(),
+                () -> assertThat(pojo.getOrigin().getName()).isNotEmpty(),
                 () -> assertThat(pojo.getLocation()).isNotNull(),
                 () -> assertThat(pojo.getLocation().getName()).isNotEmpty(),
-                () ->assertThat(pojo.getEpisode()).isNotEmpty(),
+                () -> assertThat(pojo.getEpisode()).isNotEmpty(),
                 () -> assertThat(pojo.getImage()).isNotEmpty(),
                 () -> assertThat(pojo.getUrl()).isNotEmpty(),
                 () -> assertThat(pojo.getCreated()).isNotEmpty()
